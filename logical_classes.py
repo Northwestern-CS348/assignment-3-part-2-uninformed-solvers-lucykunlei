@@ -434,7 +434,7 @@ class Bindings(object):
     def test_and_bind(self, variable_term, value_term):
         """Check if variable_term already bound. If so return whether or not passed
             in value_term matches bound value. If not, add binding between
-            variable_terma and value_term and return True.
+            variable_term and value_term and return True.
 
         Args:
             value_term (Term): value to maybe bind

@@ -1,19 +1,54 @@
-"""
-For a game with 8 tiles of blocks on a 3x3 grid,
-write down the Facts and Rules to model the game state 
-shown as the follows:
+fact: (at tile1 pos1 pos1)
+fact: (at tile2 pos2 pos1)
+fact: (at tile3 pos3 pos1)
+fact: (at tile4 pos3 pos2)
+fact: (at tile5 pos3 pos3)
+fact: (at tile6 pos2 pos3)
+fact: (at tile7 pos1 pos3)
+fact: (at tile8 pos1 pos2)
+fact: (at empty pos2 pos2)
 
- y\\x   pos1     pos2     pos3
-     ----------------------------
-pos1 | tile1  | tile2  | tile3  |
-     ----------------------------
-pos2 | tile8  | empty  | tile4  |
-     ----------------------------
-pos3 | tile7  | tile6  | tile5  |
-     ----------------------------
 
-Example: 
-fact: (pred obj1 obj2)
-rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
+fact: (adjacent tile1 tile2)
+fact: (adjacent tile1 tile8)
+fact: (adjacent tile2 tile1)
+fact: (adjacent tile2 tile3)
+fact: (adjacent tile2 empty)
+fact: (adjacent tile3 tile2)
+fact: (adjacent tile3 tile4)
+fact: (adjacent tile4 tile3)
+fact: (adjacent tile4 tile5)
+fact: (adjacent tile4 empty)
+fact: (adjacent tile5 tile4)
+fact: (adjacent tile5 tile6)
+fact: (adjacent tile6 tile5)
+fact: (adjacent tile6 tile7)
+fact: (adjacent tile7 tile6)
+fact: (adjacent tile7 tile8)
+fact: (adjacent tile8 tile7)
+fact: (adjacent tile8 tile1)
+fact: (adjacent tile8 empty)
+fact: (adjacent empty tile2)
+fact: (adjacent empty tile4)
+fact: (adjacent empty tile6)
+fact: (adjacent empty tile8)
 
-"""
+fact: (movable tile2 pos2 pos1 pos2 pos2)
+fact: (movable tile4 pos3 pos2 pos2 pos2)
+fact: (movable tile6 pos2 pos3 pos2 pos2)
+fact: (movable tile8 pos1 pos2 pos2 pos2)
+
+
+
+rule: (adjacent ?piece1 ?piece2) -> (adjacent ?piece2 ?piece1)
+rule: ((at ?piece1 ?initialX ?initialY1) (at ?piece2 ?initialX ?initialY2)) -> (adjacent ?piece1 ?piece2)
+rule: ((at ?piece1 ?initialX1 ?initialY) (at ?piece2 ?initialX2 ?initialY)) -> (adjacent ?piece1 ?piece2)
+rule: ((at ?piece1 pos2 ?initialY) (at ?piece2 ?initialX2 ?initialY)) -> (adjacent ?piece1 ?piece2)
+rule: ((at ?piece1 ?initialX1 ?initialY) (at ?piece2 pos2 ?initialY)) -> (adjacent ?piece1 ?piece2)
+rule: ((at ?piece1 ?initialX pos2) (at ?piece2 ?initialX ?initialY2)) -> (adjacent ?piece1 ?piece2)
+rule: ((at ?piece1 ?initialX ?initialY1) (at ?piece2 ?initialX pos2)) -> (adjacent ?piece1 ?piece2)
+
+
+rule: ((adjacent empty ?piece) (at empty ?emptyposX ?emptyposY) (at ?piece ?pieceposX ?pieceposY)) -> (movable ?piece ?piceposX ?pieceposY ?emptyposX ?emptyposY)
+rule: ((adjacent ?piece empty) (at empty ?emptyposX ?emptyposY) (at 
+?piece ?pieceposX ?pieceposY)) -> (movable ?piece ?piceposX ?pieceposY ?emptyposX ?emptyposY)
